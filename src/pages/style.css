@@ -1,3 +1,6 @@
+*{
+    text-decoration: none !important;
+}
 body{
     margin:0;
     padding:0;
@@ -203,4 +206,62 @@ body{
 .cyrpto__marketCap{
     color: #bebebe;
     width: 25%;
+}
+.modal__body table thead tr th:hover{
+    background-color: rgba(75, 99, 110, 0.4);
+    cursor: pointer;
+}
+.modal__body table tbody tr:hover{
+    background-color: rgb(220, 220, 220);
+    cursor: pointer;
+}
+.pagenationBtn:hover{
+    box-shadow: rgb(75 99 110) 0px 3px 8px;
+    transform: translateY(-3px);
+}
+.search input:hover{
+    box-shadow: rgb(220 220 220 / 80%) 0px 4px 12px;
+}
+.navbar__link{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    margin: 0px 20px;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(82, 156, 127);
+    font-size: 15px;
+    box-shadow: rgba(63, 141, 147, 0.64) 0px 3px 8px;
+    transition: all 0.2s ease 0s;
+    opacity: 1;
+    cursor: pointer;
+}
+.favoritesBtnClear{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    margin: 0px 20px;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(100, 13, 13);
+    font-size: 15px;
+    box-shadow: rgba(63, 141, 147, 0.64) 0px 3px 8px;
+    transition: all 0.2s ease 0s;
+    opacity: 1;
+    cursor: pointer;
+}
+.favoritesRemoveBtn{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    margin: 0px 20px;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(173, 240, 48);
+    font-size: 15px;
+    box-shadow: rgba(63, 141, 147, 0.64) 0px 3px 8px;
+    transition: all 0.2s ease 0s;
+    opacity: 1;
+    cursor: pointer;
+
 }

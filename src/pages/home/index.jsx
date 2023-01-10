@@ -1,18 +1,32 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Footer from "../../components/footer";
 import Navbar from "../../components/navbar";
+import { getCyrptosByPageNumber } from "../../service/getCyrptosByPageNumber";
+import { addProductToFavorites } from "../../redux/slice/favorites";
 import "../style.css";
+import { toast, Toaster } from "react-hot-toast";
+import axios from "axios";
 
 export const Home = () => {
   const [cyrptos, setCyrptos] = useState([]);
-  // const dispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [inputVal, setInputVal] = useState("");
+  const dispatch = useDispatch();
 
+  // useEffect((pageNumber) => {
+  //   getCyrptosByPageNumber(pageNumber).then((res) => {
+  //     if (res.status === 200) {
+  //       setCyrptos(res.data);
+  //     }
+  //   });
+  // }, []);
+
+  console.log();
   useEffect(() => {
     axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${pageNumber}&sparkline=false`
       )
       .then((res) => setCyrptos(res.data));
   }, []);
@@ -23,7 +37,11 @@ export const Home = () => {
         <div className="modal__up">
           <h2>Cyrpto Tracker Application</h2>
           <div className="search">
-            <input type="text" placeholder="Search by cyrpto name" />
+            <input
+              type="text"
+              placeholder="Search by cyrpto name"
+              onChange={(e) => setInputVal(e.target.value)}
+            />
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -47,74 +65,103 @@ export const Home = () => {
                 <th>Price</th>
                 <th>Price Change</th>
                 <th>Market Cap</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {cyrptos.map((cyrpto) => {
-                return (
-                  <tr key={cyrpto.market_cap_rank}>
-                    <td className="cyrpto__rank">{cyrpto.market_cap_rank}</td>
-                    <td className="cyrpto__coin">
-                      <img
-                        src={cyrpto.image}
-                        alt={cyrpto.name}
-                        className="cyrpto__logo"
-                      />
-                      {" " + cyrpto.name}
-                    </td>
-                    <td className="cyrpto__number cyrpto__price">
-                      ${cyrpto.current_price}
-                    </td>
-                    <td
-                      className={
-                        cyrpto.price_change_percentage_24h >= 0
-                          ? "cyrpto__number cyrpto__price__increase"
-                          : "cyrpto__number cyrpto__price__decrease"
-                      }
-                    >
-                      {cyrpto.price_change_percentage_24h}%
-                      {cyrpto.price_change_percentage_24h > 0 ? (
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth="0"
-                          viewBox="0 0 20 20"
-                          className="CryptoTable_icon__jZ1Kk"
-                          height="1em"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
+              {cyrptos
+                .filter((fill) => {
+                  if (inputVal === "") return fill;
+                  if (
+                    fill.name.toLowerCase().includes(inputVal.toLowerCase()) ||
+                    fill.market_cap_rank
+                      .toString()
+                      .includes(inputVal.toLowerCase()) ||
+                    fill.current_price
+                      .toString()
+                      .includes(inputVal.toLowerCase()) ||
+                    fill.price_change_percentage_24h
+                      .toString()
+                      .includes(inputVal.toLowerCase()) ||
+                    fill.market_cap.toString().includes(inputVal.toLowerCase())
+                  )
+                    return fill;
+                })
+                .map((cyrpto, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="cyrpto__rank">{cyrpto.market_cap_rank}</td>
+                      <td className="cyrpto__coin">
+                        <img
+                          src={cyrpto.image}
+                          alt={cyrpto.name}
+                          className="cyrpto__logo"
+                        />
+                        {" " + cyrpto.name}
+                      </td>
+                      <td className="cyrpto__number cyrpto__price">
+                        ${cyrpto.current_price}
+                      </td>
+                      <td
+                        className={
+                          cyrpto.price_change_percentage_24h >= 0
+                            ? "cyrpto__number cyrpto__price__increase"
+                            : "cyrpto__number cyrpto__price__decrease"
+                        }
+                      >
+                        {cyrpto.price_change_percentage_24h}%
+                        {cyrpto.price_change_percentage_24h > 0 ? (
+                          <svg
+                            stroke="currentColor"
+                            fill="currentColor"
+                            strokeWidth="0"
+                            viewBox="0 0 20 20"
+                            className="CryptoTable_icon__jZ1Kk"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                              clipRule="evenodd"
+                            ></path>
+                          </svg>
+                        ) : (
+                          <svg
+                            stroke="currentColor"
+                            fill="currentColor"
+                            strokeWidth="0"
+                            viewBox="0 0 20 20"
+                            className="CryptoTable_icon__jZ1Kk"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586 3.707 5.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"
+                              clipRule="evenodd"
+                            ></path>
+                          </svg>
+                        )}
+                      </td>
+                      <td className="cyrpto__number cyrpto__marketCap">
+                        ${cyrpto.market_cap}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            dispatch(addProductToFavorites(cyrpto));
+                            toast.success("Successfully added favorites!");
+                          }}
                         >
-                          <path
-                            fill-rule="evenodd"
-                            d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      ) : (
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth="0"
-                          viewBox="0 0 20 20"
-                          className="CryptoTable_icon__jZ1Kk"
-                          height="1em"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586 3.707 5.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      )}
-                    </td>
-                    <td className="cyrpto__number cyrpto__marketCap">
-                      ${cyrpto.market_cap}
-                    </td>
-                  </tr>
-                );
-              })}
+                          Add
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -122,10 +169,19 @@ export const Home = () => {
           <button disabled className="pagenationBtn">
             🡠 Previous Page
           </button>
-          <h3>Page 1</h3>
-          <button className="pagenationBtn">Next Page 🡢</button>
+          <h3>Page {pageNumber}</h3>
+          <button
+            className="pagenationBtn"
+            onClick={() => {
+              setPageNumber((pageNumber) => pageNumber + 1);
+              setCyrptos([...cyrptos]);
+            }}
+          >
+            Next Page 🡢
+          </button>
         </div>
       </div>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Footer />
     </div>
   );
