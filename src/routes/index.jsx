@@ -1,7 +1,19 @@
-import React from "react";
+import { createBrowserRouter } from "react-router-dom";
+import Home from "pages/home";
+import Cart from "pages/cart";
+import Favorites from "pages/favorites";
 
-function index() {
-  return <div>index</div>;
-}
-
-export default index;
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/cart",
+    element: <Cart />,
+  },
+  {
+    path: "/favorites",
+    element: <Favorites />,
+  },
+]);
