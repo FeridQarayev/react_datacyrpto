@@ -1,3 +1,9 @@
+body{
+    margin:0;
+    padding:0;
+    font-family: 'Roboto Mono', monospace;
+}
+
 .home{
     background-image: url('../images/backgroundImage.jpg');
     background-color: rgb(204, 204, 204);
@@ -13,5 +19,188 @@
     flex-direction: column;
 }
 .modal{
-    
+    margin-top: 20px;
+    width: 60%;
+    height: fit-content;
+    z-index: 1000;
+    background-color: rgb(207, 216, 220);
+    border-radius: 5px;
+    padding: 8px 20px;
+    box-shadow: rgb(255 255 255) 0px 3px 20px;
+    transition: all 0.5s ease 0s;
+    margin-bottom: 50px;
+}
+.modal__up{
+    width: 100%;
+    display: flex;
+}
+.modal__up h2{
+    margin: 0px;
+    padding: 10px 0px;
+    font-weight: 700;
+    display: inline-block;
+    color: rgb(75, 99, 110);
+}
+.search{
+    display: inline-block;
+    width: fit-content;
+    transform: translateY(10px);
+    position: relative;
+    margin-left: auto;
+    margin-right: 40px;
+}
+.search input{
+    width: 100%;
+    display: inline-block;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 18px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease 0s;
+    box-shadow: rgb(255 255 255 / 60%) 0px 4px 12px;
+}
+.search svg{
+    position: absolute;
+    right: -25px;
+    top: 3px;
+    font-size: 30px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    padding: 4px;
+    transition: all 0.2s ease 0s;
+    color: rgba(0, 0, 0, 0.8);
+}
+.modal__body{
+    width: 98%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    background-color: white !important;
+    height: 600px;
+    box-shadow: rgb(255 255 255 / 50%) 0px 3px 5px;
+    overflow: auto;
+    font-family: Poppins, sans-serif;
+}
+.modal__body::-webkit-scrollbar {
+    width: 16px;
+}
+.modal__body::-webkit-scrollbar-thumb {
+    background-color: rgb(120, 144, 156);
+    border-radius: 100px;
+}
+.modal__body::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 100px;
+}
+.modal__body table{
+    border-color: grey;
+    width: 100%;
+    border-spacing: 0px;
+    padding: 0px 10px;
+    font-family: Poppins, sans-serif;
+}
+.modal__body table thead{
+    border-spacing: 0px;
+    font-family: Poppins, sans-serif;
+    height: 54px;
+}
+.modal__body table thead tr{
+    border: none;
+    transition: background-color 0.7s ease 0s;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.modal__body table thead tr td{
+    border: none;
+    padding: 15px 5px;
+    font-weight: 700;
+    transition: all 0.5s ease 0s;
+}
+.modal__down{
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-family: Poppins, sans-serif;
+    -webkit-box-align: center;
+    align-items: center;
+    font-family: Poppins, sans-serif;
+}
+.modal__down .pagenationBtn{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    margin: 0px 20px;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(120, 144, 156);
+    font-size: 15px;
+    box-shadow: rgb(75 99 110 / 64%) 0px 3px 8px;
+    transition: all 0.2s ease 0s;
+    opacity: 1;
+    cursor: pointer;
+}
+.modal__down h3{
+    cursor: default;
+    font-size: 14px;
+}
+.pagenationBtnDisabled{
+    cursor: not-allowed;
+    opacity: 0.3 !important;
+}
+.modal_body tbody tr{
+    border: none;
+    transition: background-color 0.7s ease 0s;
+}
+.cyrpto__rank{
+    text-align: center;
+    padding: 15px 5px;
+    margin: 0px 10px;
+    font-weight: 500;
+    transition: all 0.5s ease 0s;
+}
+.cyrpto__coin{
+    padding: 15px 5px;
+    margin: 0px 10px;
+    font-weight: 500;
+    transition: all 0.5s ease 0s;
+    transform: translateY(-7px);
+    width: 15%;
+    text-align: left!important;
+}
+.cyrpto__number{
+    text-align: center;
+    padding: 15px 5px;
+    margin: 0px 10px;
+    font-weight: 500;
+    transition: all 0.5s ease 0s;
+}
+.cyrpto__price{
+    color: #fc0;
+    width: 25%;
+}
+.cyrpto__logo{
+    width: 30px;
+    display: inline-block;
+    transform: translateY(9px);
+    transition: all 0.5s ease 0s;
+}
+.cyrpto__price__increase{
+    color: #4bb543;
+    width: 25%;
+}
+.cyrpto__price__decrease{
+    color: #f33;
+    width: 25%;
+}
+.cyrpto__marketCap{
+    color: #bebebe;
+    width: 25%;
 }

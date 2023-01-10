@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Footer from "../../components/footer";
 import Navbar from "../../components/navbar";
 import "../style.css";
 
 export const Home = () => {
-  // const [products, setProducts] = useState(null);
+  const [cyrptos, setCyrptos] = useState([]);
   // const dispatch = useDispatch();
 
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+      )
+      .then((res) => setCyrptos(res.data));
+  }, []);
   return (
     <div className="home">
       <Navbar />
@@ -19,9 +27,9 @@ export const Home = () => {
             <svg
               stroke="currentColor"
               fill="currentColor"
-              stroke-width="0"
+              strokeWidth="0"
               viewBox="0 0 512 512"
-              class="sc-hBUSln eAmuix"
+              className="sc-hBUSln eAmuix"
               height="1em"
               width="1em"
               xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +40,82 @@ export const Home = () => {
         </div>
         <div className="modal__body">
           <table>
-            <thead></thead>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th style={{ textAlign: "left" }}>Coin Name</th>
+                <th>Price</th>
+                <th>Price Change</th>
+                <th>Market Cap</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cyrptos.map((cyrpto) => {
+                return (
+                  <tr key={cyrpto.market_cap_rank}>
+                    <td className="cyrpto__rank">{cyrpto.market_cap_rank}</td>
+                    <td className="cyrpto__coin">
+                      <img
+                        src={cyrpto.image}
+                        alt={cyrpto.name}
+                        className="cyrpto__logo"
+                      />
+                      {" " + cyrpto.name}
+                    </td>
+                    <td className="cyrpto__number cyrpto__price">
+                      ${cyrpto.current_price}
+                    </td>
+                    <td
+                      className={
+                        cyrpto.price_change_percentage_24h >= 0
+                          ? "cyrpto__number cyrpto__price__increase"
+                          : "cyrpto__number cyrpto__price__decrease"
+                      }
+                    >
+                      {cyrpto.price_change_percentage_24h}%
+                      {cyrpto.price_change_percentage_24h > 0 ? (
+                        <svg
+                          stroke="currentColor"
+                          fill="currentColor"
+                          strokeWidth="0"
+                          viewBox="0 0 20 20"
+                          className="CryptoTable_icon__jZ1Kk"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <svg
+                          stroke="currentColor"
+                          fill="currentColor"
+                          strokeWidth="0"
+                          viewBox="0 0 20 20"
+                          className="CryptoTable_icon__jZ1Kk"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586 3.707 5.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      )}
+                    </td>
+                    <td className="cyrpto__number cyrpto__marketCap">
+                      ${cyrpto.market_cap}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
         <div className="modal__down">
@@ -43,26 +126,6 @@ export const Home = () => {
           <button className="pagenationBtn">Next Page 🡢</button>
         </div>
       </div>
-      {/* {products &&
-        products.map((product) => (
-          <div key={product.id}>
-          <span>{product.name}</span>
-          <button
-          onClick={() => {
-                dispatch(addProduct(product));
-              }}
-              >
-              Add
-              </button>
-              <button
-              onClick={() => {
-                dispatch(addProductToFavorites(product));
-              }}
-            >
-            Add to Favorite
-            </button>
-            </div>
-          ))} */}
       <Footer />
     </div>
   );
