@@ -14,22 +14,13 @@ export const Home = () => {
   const [inputVal, setInputVal] = useState("");
   const dispatch = useDispatch();
 
-  // useEffect((pageNumber) => {
-  //   getCyrptosByPageNumber(pageNumber).then((res) => {
-  //     if (res.status === 200) {
-  //       setCyrptos(res.data);
-  //     }
-  //   });
-  // }, []);
-
-  console.log();
   useEffect(() => {
-    axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${pageNumber}&sparkline=false`
-      )
-      .then((res) => setCyrptos(res.data));
-  }, []);
+    getCyrptosByPageNumber(pageNumber).then((res) => {
+      if (res.status === 200) {
+        setCyrptos(res.data);
+      }
+    });
+  }, [pageNumber]);
   return (
     <div className="home">
       <Navbar />
@@ -166,19 +157,40 @@ export const Home = () => {
           </table>
         </div>
         <div className="modal__down">
-          <button disabled className="pagenationBtn">
+          {pageNumber<=1?
+          <button disabled className="pagenationBtn pagenationBtnDisabled"
+          onClick={() => {
+            setPageNumber(pageNumber - 1);
+          }}>
+            🡠 Previous Page
+          </button>:
+          <button className="pagenationBtn"
+          onClick={() => {
+            setPageNumber(pageNumber - 1);
+          }}>
             🡠 Previous Page
           </button>
+          }
           <h3>Page {pageNumber}</h3>
+          {127<=pageNumber?
+          <button
+          disabled
+            className="pagenationBtn pagenationBtnDisabled"
+            onClick={() => {
+              setPageNumber(pageNumber + 1);
+            }}
+          >
+            Next Page 🡢
+          </button>:
           <button
             className="pagenationBtn"
             onClick={() => {
-              setPageNumber((pageNumber) => pageNumber + 1);
-              setCyrptos([...cyrptos]);
+              setPageNumber(pageNumber + 1);
             }}
           >
             Next Page 🡢
           </button>
+          }
         </div>
       </div>
       <Toaster position="bottom-right" reverseOrder={false} />

@@ -155,7 +155,7 @@ body{
     font-size: 14px;
 }
 .pagenationBtnDisabled{
-    cursor: not-allowed;
+    cursor: not-allowed !important;
     opacity: 0.3 !important;
 }
 .modal_body tbody tr{
@@ -263,5 +263,4 @@ body{
     transition: all 0.2s ease 0s;
     opacity: 1;
     cursor: pointer;
-
 }
